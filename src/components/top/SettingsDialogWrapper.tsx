@@ -11,6 +11,7 @@ export default async function SettingsDialogWrapper() {
 			{
 				context: {
 					cache: "no-store",
+					headers: await headers(),
 				},
 			},
 		),
