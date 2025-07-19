@@ -30,3 +30,4 @@ export const SuccessResponseSchema = z.object({
 export type TweetSchemaType = z.infer<typeof TweetSchema>;
 export type SettingsInputSchemaType = z.infer<typeof SettingsInputSchema>;
 export type SettingsOutputSchemaType = z.infer<typeof SettingsOutputSchema>;
+export type ResponseTweetsSchemaType = z.infer<typeof ResponseTweetsSchema>;

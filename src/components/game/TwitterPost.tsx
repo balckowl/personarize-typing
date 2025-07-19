@@ -1,26 +1,29 @@
-import type { TwitterUser } from "@/types";
-import { Heart, MessageCircle, Repeat2, Share } from "lucide-react";
+import { Heart, MessageCircle, Repeat2, Share, User } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
-interface TwitterPostProps {
-	user: TwitterUser;
+type Props = {
+	userIcon: string | undefined;
+	displayName: string;
 	children: React.ReactNode;
-}
+	userName: string;
+};
 
-export const TwitterPost: React.FC<TwitterPostProps> = ({ user, children }) => {
+export const TwitterPost = ({ userIcon, displayName, userName, children }: Props) => {
 	return (
-		<div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
+		<div className="rounded-2xl border bg-white p-6 shadow-md">
 			<div className="flex items-start space-x-3">
-				<img
-					src={user.avatar}
-					alt={user.displayName}
-					className="h-12 w-12 rounded-full object-cover"
-				/>
+				<Avatar className="h-12 w-12 border">
+					<AvatarImage src={userIcon} alt={displayName} width={48} height={48} />
+					<AvatarFallback>
+						<User />
+					</AvatarFallback>
+				</Avatar>
 				<div className="min-w-0 flex-1">
 					<div className="flex items-center space-x-2">
-						<h3 className="truncate font-bold text-gray-900">{user.displayName}</h3>
-						<span className="text-gray-500 text-sm">{user.username}</span>
+						<h3 className="truncate font-bold text-gray-900">{displayName}</h3>
+						<span className="text-gray-500 text-sm">@{userName}</span>
 						<span className="text-gray-500 text-sm">·</span>
-						<span className="text-gray-500 text-sm">{user.timestamp}</span>
+						<span className="text-gray-500 text-sm">2時間前</span>
 					</div>
 					<div className="mt-3">{children}</div>
 					<div className="mt-4 flex max-w-md items-center justify-between">
