@@ -15,6 +15,7 @@ type ClientContext = {
 		revalidate?: number | false;
 		tags?: string[];
 	};
+	headers?: Headers;
 };
 
 const link = new RPCLink<ClientContext>({
@@ -30,12 +31,21 @@ const link = new RPCLink<ClientContext>({
 		}
 		return "POST";
 	},
-	fetch: async (request, init, { context }) =>
-		globalThis.fetch(request, {
+	fetch: async (request, init, { context }) => {
+		const finalHeaders = new Headers((init as RequestInit).headers);
+		if (context?.headers) {
+			context.headers.forEach((value, key) => {
+				finalHeaders.set(key, value);
+			});
+		}
+
+		return globalThis.fetch(request, {
 			...init,
+			headers: finalHeaders,
 			cache: context?.cache,
 			...(context?.next ? { next: context.next } : {}),
-		}),
+		});
+	},
 });
 
 export const orpc: RouterClient<typeof router, ClientContext> = createORPCClient(link);
