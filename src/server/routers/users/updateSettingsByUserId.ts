@@ -1,6 +1,7 @@
 import { user } from "@/db/schema";
 import { authed } from "@/server/orpc";
 import { SettingsInputSchema, SuccessResponseSchema } from "@/server/schemas/user.schema";
+import { eq } from "drizzle-orm";
 
 export const updateSettingsByUserId = authed
 	.route({
@@ -12,9 +13,12 @@ export const updateSettingsByUserId = authed
 	.input(SettingsInputSchema)
 	.output(SuccessResponseSchema)
 	.handler(async ({ context, input }) => {
-		await context.db.update(user).set({
-			prompt: input.prompt,
-		});
+		await context.db
+			.update(user)
+			.set({
+				prompt: input.prompt,
+			})
+			.where(eq(user.id, context.session.user.id));
 
 		return { message: "更新成功" };
 	});

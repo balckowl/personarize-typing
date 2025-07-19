@@ -1,7 +1,7 @@
 import type { GameState, useTypingGame } from "@/hooks/useTypingGame";
 import { getExpectedRomaji, isHiragana, isKatakana } from "@/lib/romaji";
 import type { ResponseTweetsSchemaType } from "@/server/schemas/user.schema";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { TwitterPost } from "./TwitterPost";
 
 type Props = {
@@ -100,14 +100,14 @@ export const TypingGame = ({
 			let textClassName = "text-xl font-medium";
 
 			// スキップ可能な文字は薄いグレーで表示
-			if (isSkippableCharacter(char)) {
-				return (
-					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-					<span key={index} className="mx-px font-medium text-gray-300 text-xl">
-						{char}
-					</span>
-				);
-			}
+			// if (isSkippableCharacter(char)) {
+			//   return (
+			//     /* biome-ignore lint/suspicious/noArrayIndexKey: <explanation> */
+			//     <span key={index} className="mx-px font-medium text-gray-300 text-xl">
+			//       {char}
+			//     </span>
+			//   )
+			// }
 
 			if (index < gameState.currentCharIndex) {
 				// 完了した文字
@@ -125,13 +125,9 @@ export const TypingGame = ({
 
 			return (
 				// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-				<span key={index} className="relative mx-px mb-6 inline-block">
-					{/* biome-ignore lint/style/useTemplate: <explanation> */}
-					<span className={textClassName + " rounded px-1 py-0.5"}>{char}</span>
+				<span key={index} className="relative mx-px inline-block">
 					{(isHiragana(char) || isKatakana(char)) && (
-						<span className="mt-1 block h-4 text-center">
-							{renderRomajiWithProgress(char, index)}
-						</span>
+						<span>{renderRomajiWithProgress(char, index)}</span>
 					)}
 				</span>
 			);
@@ -154,7 +150,19 @@ export const TypingGame = ({
 
 			<TwitterPost userIcon={userIcon} displayName={displayName} userName={userName}>
 				<div className="leading-relaxed">
-					<div className="text-left font-mono" style={{ lineHeight: "3.5" }}>
+					<div className="text-left font-mono">
+						<p className="mb-4">
+							{tweets[gameState.currentSentenceIndex].base.split("\n").map((line, i) => (
+								// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+								<Fragment key={i}>
+									{line}
+									{i !== tweets[gameState.currentSentenceIndex].base.split("\n").length - 1 && (
+										<br />
+									)}
+								</Fragment>
+							))}
+						</p>
+
 						{renderText()}
 					</div>
 				</div>

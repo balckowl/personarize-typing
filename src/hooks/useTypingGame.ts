@@ -19,7 +19,7 @@ export type GameState = {
 };
 
 export const useTypingGame = (sentences: string[]) => {
-	const GAME_DURATION = 10; // 秒
+	const GAME_DURATION = 100; // 秒
 
 	const [gameState, setGameState] = useState<GameState>({
 		currentSentenceIndex: 0,

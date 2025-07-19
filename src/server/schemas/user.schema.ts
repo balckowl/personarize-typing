@@ -21,6 +21,7 @@ export const ResponseTweetSchema = z.object({
 	id: z.number(),
 	base: z.string(),
 	baseToHiragana: z.string(),
+	baseToKangi: z.string(),
 });
 
 export const ResponseTweetsSchema = z.array(ResponseTweetSchema);
