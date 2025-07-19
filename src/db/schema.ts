@@ -16,7 +16,7 @@ export const user = pgTable("user", {
 		.$defaultFn(() => /* @__PURE__ */ new Date())
 		.notNull(),
 	tweets: jsonb("tweets").$type<{ id: string; text: string }[]>().notNull().default(tweets),
-	prompt: text("prompt"),
+	prompt: text("prompt").notNull().default(""),
 });
 
 export const session = pgTable("session", {
