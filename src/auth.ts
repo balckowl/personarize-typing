@@ -1,9 +1,18 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { eq } from "drizzle-orm";
 import { db } from "./db";
 import { user } from "./db/schema";
 import { env } from "./env";
+import type { UserSchemaType } from "./server/schemas/user.schema";
 import type { RawPost } from "./types";
+
+const TWITTER_BEARER_TOKEN_List = [
+	env.TWITTER_BEARER_TOKEN_1,
+	env.TWITTER_BEARER_TOKEN_2,
+	env.TWITTER_BEARER_TOKEN_3,
+	env.TWITTER_BEARER_TOKEN_4,
+];
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
@@ -41,17 +50,40 @@ export const auth = betterAuth({
 		user: {
 			create: {
 				after: async (userInfo) => {
-					// const maxResult = 5;
+					const compUserInfo = userInfo as UserSchemaType;
+					// console.log("---------userinf-------------");
+					// console.log(compUserInfo.twitterId);
+					// const url = `https://api.twitter.com/2/users/${user.id}/tweets?max_results=${maxResult}&tweet.fields=text`;
 					//   const url = `https://api.twitter.com/2/users/${user.id}/tweets?max_results=${maxResult}&tweet.fields=text`;
+
+					const maxResult = 5;
+					const response = await fetch(
+						`https://api.twitter.com/2/users/${compUserInfo.twitterId}/tweets?max_results=${maxResult}&tweet.fields=text`,
+						{
+							headers: {
+								Authorization: `Bearer ${env.TWITTER_BEARER_TOKEN_1}`,
+							},
+						},
+					);
+
+					if (response.ok) {
+						const data: { data: RawPost[] } = await response.json();
+						const postList = data.data;
+						const newPostList = postList.map((post) => {
+							return { id: post.id, text: post.text };
+						});
+						await db.update(user).set({ tweets: newPostList }).where(eq(user.id, userInfo.id));
+						return;
+					}
+
 					const url = "http://localhost:8080/data";
-					const response = await fetch(url, {
+					const mockResponse = await fetch(url, {
 						headers: {
 							//   Authorization: `Bearer ${env.TWITTER_BEARER_TOKEN}`,
 						},
 						method: "GET",
 					});
-
-					if (!response.ok) {
+					if (!mockResponse.ok) {
 						throw new Error("Failed to fetch tweets");
 					}
 
@@ -60,7 +92,9 @@ export const auth = betterAuth({
 					const newPostList = postList.map((post) => {
 						return { id: post.id, text: post.text };
 					});
-					await db.update(user).set({ tweets: newPostList });
+
+					// console.log("モックから取得");
+					await db.update(user).set({ tweets: newPostList }).where(eq(user.id, userInfo.id));
 				},
 			},
 		},
