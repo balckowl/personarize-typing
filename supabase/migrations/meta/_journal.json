@@ -43,6 +43,13 @@
 			"when": 1752938807489,
 			"tag": "0005_youthful_proteus",
 			"breakpoints": true
+		},
+		{
+			"idx": 6,
+			"version": "7",
+			"when": 1752939281908,
+			"tag": "0006_new_corsair",
+			"breakpoints": true
 		}
 	]
 }

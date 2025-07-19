@@ -12,18 +12,14 @@ export const auth = betterAuth({
 	user: {
 		// userモデルの設定を追加
 		additionalFields: {
-			// Twitter (X) のユーザー名を保存するための新しいカラム
 			username: {
-				type: "string", // 文字列型で定義
-				required: false, // 必須ではない場合
+				type: "string",
+				required: true,
 			},
-			// Twitter (X) のユーザーIDを保存するための新しいカラム
 			twitterId: {
-				type: "string", // TwitterのIDは通常文字列であるため文字列型で定義
-				required: false, // 必須ではない場合
+				type: "string",
+				required: true,
 			},
-			// 取得したツイートのリストを保存するための新しいカラム
-			// PostgreSQLの場合は 'json' または 'jsonb' 型が適しています
 		},
 	},
 	socialProviders: {
@@ -34,7 +30,10 @@ export const auth = betterAuth({
 				// 'profile' オブジェクトの具体的な構造はTwitter (X) のAPIドキュメントで確認してください。
 				// ここでは、仮にTwitter (X) のプロフィールから 'name' や 'screen_name' を取得する例です。
 				const data = profile.data;
-				return {};
+				return {
+					username: data.username,
+					twitterId: data.id,
+				};
 			},
 		},
 	},
