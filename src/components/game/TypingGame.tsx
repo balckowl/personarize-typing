@@ -1,22 +1,38 @@
-import { twitterUsers } from "@/data/sentence";
-import { useTypingGame } from "@/hooks/useTypingGame";
+import type { GameState, useTypingGame } from "@/hooks/useTypingGame";
 import { getExpectedRomaji, isHiragana, isKatakana } from "@/lib/romaji";
+import type { ResponseTweetsSchemaType } from "@/server/schemas/user.schema";
 import { useEffect } from "react";
 import { TwitterPost } from "./TwitterPost";
 
-export const TypingGame: React.FC = () => {
-	const {
-		gameState,
-		currentInput,
-		romajiProgress,
-		currentRomajiIndex,
-		startGame,
-		handleKeyPress,
-		currentSentence,
-		incorrectChars,
-		isSkippableCharacter,
-	} = useTypingGame();
+type Props = {
+	userIcon?: string;
+	displayName: string;
+	userName: string;
+	tweets: ResponseTweetsSchemaType;
+	gameState: GameState;
+	startGame: () => void;
+	handleKeyPress: (key: string) => void;
+	currentSentence: string;
+	romajiProgress: { char: string; isCorrect: boolean }[];
+	currentRomajiIndex: number;
+	incorrectChars: Set<number>;
+	isSkippableCharacter: (char: string) => boolean;
+};
 
+export const TypingGame = ({
+	userIcon,
+	displayName,
+	userName,
+	tweets,
+	gameState,
+	startGame,
+	handleKeyPress,
+	currentSentence,
+	romajiProgress,
+	currentRomajiIndex,
+	incorrectChars,
+	isSkippableCharacter,
+}: Props) => {
 	useEffect(() => {
 		if (!gameState.isGameActive && !gameState.isGameFinished) {
 			startGame();
@@ -128,8 +144,6 @@ export const TypingGame: React.FC = () => {
 		return `${mins}:${secs.toString().padStart(2, "0")}`;
 	};
 
-	const user = twitterUsers[gameState.currentSentenceIndex % twitterUsers.length];
-
 	return (
 		<div className="mx-auto max-w-2xl">
 			<div className="mb-6 text-center">
@@ -138,17 +152,11 @@ export const TypingGame: React.FC = () => {
 				</div>
 			</div>
 
-			<TwitterPost user={user}>
+			<TwitterPost userIcon={userIcon} displayName={displayName} userName={userName}>
 				<div className="leading-relaxed">
 					<div className="text-left font-mono" style={{ lineHeight: "3.5" }}>
 						{renderText()}
 					</div>
-					{currentInput && (
-						<div className="mt-4 rounded bg-blue-50 p-2 text-sm">
-							<span className="text-gray-600">入力中: </span>
-							<span className="font-mono text-blue-600">{currentInput}</span>
-						</div>
-					)}
 				</div>
 			</TwitterPost>
 

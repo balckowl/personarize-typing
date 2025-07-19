@@ -1,25 +1,41 @@
-"use client";
+import { auth } from "@/auth";
+import GameUIWrapper from "@/components/game/GameUIWrapper";
+import { orpc } from "@/lib/orpc";
+import { safe } from "@orpc/client";
+import { headers } from "next/headers";
 
-import { TypingGame } from "@/components/game/TypingGame";
-import { useTypingGame } from "@/hooks/useTypingGame";
+export default async function Page() {
+	const session = await auth.api.getSession({
+		headers: await headers(),
+	});
 
-export default function page() {
-	const { gameState, resetGame } = useTypingGame();
+	if (!session) {
+		return <div>認証してください。</div>;
+	}
+
+	const { data: tweets, error } = await safe(
+		orpc.users.getTweetsByUserId(
+			{},
+			{
+				context: {
+					cache: "no-store",
+					headers: await headers(),
+				},
+			},
+		),
+	);
+
+	if (error) throw error;
+
+	const sentences = tweets.map((tweet) => tweet.baseToHiragana);
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-			<div className="container mx-auto px-4 py-8">
-				<div className="mx-auto max-w-4xl">
-					<div className="mb-8 text-center">
-						<h1 className="mb-2 font-bold text-3xl text-gray-900">タイピングゲーム</h1>
-						{!gameState.isGameFinished && (
-							<p className="text-gray-600">表示される文章を正確にタイピングしてください</p>
-						)}
-					</div>
-
-					{gameState.isGameFinished ? <div>結果</div> : <TypingGame />}
-				</div>
-			</div>
-		</div>
+		<GameUIWrapper
+			userIcon={session.user.image ?? ""}
+			userName={session.user.username}
+			displayName={session.user.name}
+			tweets={tweets}
+			sentences={sentences}
+		/>
 	);
 }
