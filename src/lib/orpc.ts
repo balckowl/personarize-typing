@@ -30,7 +30,7 @@ const link = new RPCLink<ClientContext>({
 		}
 		return "POST";
 	},
-	fetch: (request, init, { context }) =>
+	fetch: async (request, init, { context }) =>
 		globalThis.fetch(request, {
 			...init,
 			cache: context?.cache,
