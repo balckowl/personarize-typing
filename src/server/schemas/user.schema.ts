@@ -13,6 +13,7 @@ const UserSelectSchema = createSelectSchema(user);
 export const SettingsOutputSchema = UserSelectSchema.pick({
 	prompt: true,
 });
+
 export const TweetSchema = UserSelectSchema.pick({
 	tweets: true,
 });
@@ -31,3 +32,4 @@ export type TweetSchemaType = z.infer<typeof TweetSchema>;
 export type SettingsInputSchemaType = z.infer<typeof SettingsInputSchema>;
 export type SettingsOutputSchemaType = z.infer<typeof SettingsOutputSchema>;
 export type ResponseTweetsSchemaType = z.infer<typeof ResponseTweetsSchema>;
+export type UserSchemaType = z.infer<typeof UserSelectSchema>;
