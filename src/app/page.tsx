@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import LoginButton from "@/components/top/LoginButton";
-import SettingsDialogWrapper from "@/components/top/SettingsDialogWrapper";
+// import SettingsDialogWrapper from "@/components/top/SettingsDialogWrapper";
 import { Button } from "@/components/ui/button";
 import { headers } from "next/headers";
 import Link from "next/link";
@@ -12,7 +12,7 @@ export default async function Page() {
 
 	return (
 		<div className="flex h-screen items-center justify-center">
-			{session && <SettingsDialogWrapper />}
+			{/* {session && <SettingsDialogWrapper />} */}
 			<div className="text-center">
 				<h2 className="mb-4 font-bold text-7xl">MYPING</h2>
 				<p className="mb-10">自分の過去のツイートでタイピング 練習することができます</p>
