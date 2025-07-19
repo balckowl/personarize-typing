@@ -23,3 +23,9 @@ export interface TwitterUser {
 	avatar: string;
 	timestamp: string;
 }
+
+export type RawPost = {
+	id: string;
+	edit_history_tweet_ids: string[];
+	text: string;
+};
