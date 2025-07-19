@@ -10,7 +10,7 @@ type Props = {
 
 export const TwitterPost = ({ userIcon, displayName, userName, children }: Props) => {
 	return (
-		<div className="rounded-2xl border bg-white p-6 shadow-md">
+		<div className="rounded-2xl border bg-white px-8 py-6 shadow-md">
 			<div className="flex items-start space-x-3">
 				<Avatar className="h-12 w-12 border">
 					<AvatarImage src={userIcon} alt={displayName} width={48} height={48} />

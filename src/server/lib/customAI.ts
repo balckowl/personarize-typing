@@ -10,6 +10,7 @@ const schema = {
 			id: { type: "integer" },
 			base: { type: "string" },
 			baseToHiragana: { type: "string" },
+			baseToKangi: { type: "string" },
 		},
 		required: ["id", "base", "baseToHiragana"],
 	},
@@ -27,9 +28,9 @@ export const customAI = async ({
 		model: "gemini-1.5-flash", // プロジェクトで利用可能な最新モデルを指定
 		contents: `
 以下の JSON 配列を処理し、
-1. 各オブジェクトの base をすべてひらがなに変換し、
-2. 絵文字や記号は除去し、
-3. グローバルな指示に従って出力してください。
+1. 各オブジェクトの baseはそのままに、スラッシュnは削除して、全てひらがなに変換し、
+3. 絵文字や記号は除去し、
+4. グローバルな指示に従って出力してください。
 Global Prompt: "${prompt}"
 
 入力:
@@ -37,7 +38,7 @@ ${JSON.stringify(tweets, null, 2)}
 
 変換後は次の形で出力してください。  
 [
-  { id: 1, base: "...", baseToHiragana: "..." },
+  { id: 1, base: "...", baseToHiragana: "...", baseToKangi: "..." },
   ...
 ]
     `.trim(),

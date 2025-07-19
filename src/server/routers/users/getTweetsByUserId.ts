@@ -34,7 +34,8 @@ export const getTweetsByUserId = authed
 			throw new Error("Response.text is undefined");
 		}
 
-		const result: Array<{ id: number; base: string; baseToHiragana: string }> = JSON.parse(text);
+		const result: Array<{ id: number; base: string; baseToHiragana: string; baseToKangi: string }> =
+			JSON.parse(text);
 
 		return result;
 	});
