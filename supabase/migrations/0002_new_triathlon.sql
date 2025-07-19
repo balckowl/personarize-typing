@@ -1,0 +1,2 @@
+ALTER TABLE "user" ALTER COLUMN "tweets" SET DEFAULT '[{"id":"1","text":"おはようございます"},{"id":"2","text":"かえりましょう"}]'::jsonb;--> statement-breakpoint
+ALTER TABLE "user" ALTER COLUMN "prompt" DROP NOT NULL;
