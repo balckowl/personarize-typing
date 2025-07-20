@@ -51,30 +51,30 @@ export const auth = betterAuth({
 			create: {
 				after: async (userInfo) => {
 					const compUserInfo = userInfo as UserSchemaType;
-					// console.log("---------userinf-------------");
-					// console.log(compUserInfo.twitterId);
-					// const url = `https://api.twitter.com/2/users/${user.id}/tweets?max_results=${maxResult}&tweet.fields=text`;
-					//   const url = `https://api.twitter.com/2/users/${user.id}/tweets?max_results=${maxResult}&tweet.fields=text`;
+					// // console.log("---------userinf-------------");
+					// // console.log(compUserInfo.twitterId);
+					// // const url = `https://api.twitter.com/2/users/${user.id}/tweets?max_results=${maxResult}&tweet.fields=text`;
+					// //   const url = `https://api.twitter.com/2/users/${user.id}/tweets?max_results=${maxResult}&tweet.fields=text`;
 
-					const maxResult = 5;
-					const response = await fetch(
-						`https://api.twitter.com/2/users/${compUserInfo.twitterId}/tweets?max_results=${maxResult}&tweet.fields=text`,
-						{
-							headers: {
-								Authorization: `Bearer ${env.TWITTER_BEARER_TOKEN_1}`,
-							},
-						},
-					);
+					// const maxResult = 5;
+					// const response = await fetch(
+					// 	`https://api.twitter.com/2/users/${compUserInfo.twitterId}/tweets?max_results=${maxResult}&tweet.fields=text`,
+					// 	{
+					// 		headers: {
+					// 			Authorization: `Bearer ${env.TWITTER_BEARER_TOKEN_1}`,
+					// 		},
+					// 	},
+					// );
 
-					if (response.ok) {
-						const data: { data: RawPost[] } = await response.json();
-						const postList = data.data;
-						const newPostList = postList.map((post) => {
-							return { id: post.id, text: post.text };
-						});
-						await db.update(user).set({ tweets: newPostList }).where(eq(user.id, userInfo.id));
-						return;
-					}
+					// if (response.ok) {
+					// 	const data: { data: RawPost[] } = await response.json();
+					// 	const postList = data.data;
+					// 	const newPostList = postList.map((post) => {
+					// 		return { id: post.id, text: post.text };
+					// 	});
+					// 	await db.update(user).set({ tweets: newPostList }).where(eq(user.id, userInfo.id));
+					// 	return;
+					// }
 
 					const url = "http://localhost:8080/data";
 					const mockResponse = await fetch(url, {
@@ -87,7 +87,7 @@ export const auth = betterAuth({
 						throw new Error("Failed to fetch tweets");
 					}
 
-					const postList: RawPost[] = await response.json();
+					const postList: RawPost[] = await mockResponse.json();
 					// Process the fetched tweets as needed
 					const newPostList = postList.map((post) => {
 						return { id: post.id, text: post.text };
