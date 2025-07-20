@@ -1,6 +1,8 @@
-import type { GameState, useTypingGame } from "@/hooks/useTypingGame";
+import { mockTweets, mockTweets2 } from "@/db/tweets";
+import type { GameState } from "@/hooks/useTypingGame";
 import { getExpectedRomaji, isHiragana, isKatakana } from "@/lib/romaji";
 import type { ResponseTweetsSchemaType } from "@/server/schemas/user.schema";
+import Image from "next/image";
 import { Fragment, useEffect } from "react";
 import { TwitterPost } from "./TwitterPost";
 
@@ -141,52 +143,67 @@ export const TypingGame = ({
 	};
 
 	return (
-		<div className="mx-auto max-w-2xl">
-			<div className="mb-6 text-center">
-				<div className="inline-flex items-center rounded-full bg-blue-100 px-4 py-2 font-semibold text-blue-800">
-					残り時間: {formatTime(gameState.timeLeft)}
-				</div>
-			</div>
+		<div className="mx-auto flex h-screen max-w-2xl items-center overflow-y-hidden">
+			<div>
+				{mockTweets.map((mockTweet, i) => (
+					<TwitterPost
+						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+						key={i}
+						userIcon={mockTweet.userIcon}
+						displayName={mockTweet.displayName}
+						userName={mockTweet.userName}
+						timeLeft={mockTweet.timeLeft}
+						mock={true}
+					>
+						{mockTweet.text}
+					</TwitterPost>
+				))}
 
-			<TwitterPost userIcon={userIcon} displayName={displayName} userName={userName}>
-				<div className="leading-relaxed">
-					<div className="text-left font-mono">
-						<p className="mb-4">
-							{tweets[gameState.currentSentenceIndex].base.split("\n").map((line, i) => (
-								// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-								<Fragment key={i}>
-									{line}
-									{i !== tweets[gameState.currentSentenceIndex].base.split("\n").length - 1 && (
-										<br />
-									)}
-								</Fragment>
-							))}
-						</p>
+				<Image
+					className="absolute top-[50%] left-[20%] translate-x-[-50%] translate-y-[-50%] rotate-60"
+					src="/arrow.png"
+					width={80}
+					height={30}
+					alt=""
+				/>
 
-						{renderText()}
+				<TwitterPost
+					userIcon={userIcon}
+					displayName={displayName}
+					userName={userName}
+					timeLeft={gameState.timeLeft}
+				>
+					<div className="leading-relaxed">
+						<div className="text-left font-mono">
+							<p className="mb-4">
+								{tweets[gameState.currentSentenceIndex].base.split("\n").map((line, i) => (
+									// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+									<Fragment key={i}>
+										{line}
+										{i !== tweets[gameState.currentSentenceIndex].base.split("\n").length - 1 && (
+											<br />
+										)}
+									</Fragment>
+								))}
+							</p>
+							{renderText()}
+						</div>
 					</div>
-				</div>
-			</TwitterPost>
+				</TwitterPost>
 
-			<div className="mt-6 rounded-lg bg-gray-50 p-4">
-				<div className="grid grid-cols-3 gap-4 text-center">
-					<div>
-						<div className="font-bold text-2xl text-blue-600">{gameState.stats.wpm}</div>
-						<div className="text-gray-500 text-sm">WPM</div>
-					</div>
-					<div>
-						<div className="font-bold text-2xl text-green-600">{gameState.stats.correctChars}</div>
-						<div className="text-gray-500 text-sm">正解文字数</div>
-					</div>
-					<div>
-						<div className="font-bold text-2xl text-red-600">{gameState.stats.incorrectChars}</div>
-						<div className="text-gray-500 text-sm">ミス数</div>
-					</div>
-				</div>
-			</div>
-
-			<div className="mt-4 text-center text-gray-600">
-				<p>キーボードで入力してください</p>
+				{mockTweets2.map((mockTweet, i) => (
+					<TwitterPost
+						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+						key={i}
+						userIcon={mockTweet.userIcon}
+						displayName={mockTweet.displayName}
+						userName={mockTweet.userName}
+						timeLeft={mockTweet.timeLeft}
+						mock={true}
+					>
+						{mockTweet.text}
+					</TwitterPost>
+				))}
 			</div>
 		</div>
 	);

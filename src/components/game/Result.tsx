@@ -1,6 +1,7 @@
 import type { TypingStats } from "@/types";
-import { AlertTriangle, Clock, Target, Trophy } from "lucide-react";
+import { AlertTriangle, Clock, Home, RotateCw, Target } from "lucide-react";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
 interface ResultProps {
 	stats: TypingStats;
@@ -33,10 +34,7 @@ export const Result: React.FC<ResultProps> = ({ stats, onRestart }) => {
 	return (
 		<div className="mx-auto max-w-4xl space-y-8">
 			<div className="text-center">
-				<div className="mb-4 inline-flex h-20 w-20 items-center justify-center rounded-full bg-yellow-100">
-					<Trophy className="h-10 w-10 text-yellow-500" />
-				</div>
-				<h1 className="mb-2 font-bold text-3xl text-gray-900">ゲーム終了！</h1>
+				<h1 className="mb-2 font-bold text-3xl text-gray-900">ゲーム終了</h1>
 				<p className="text-gray-600">お疲れさまでした。結果をご確認ください。</p>
 			</div>
 
@@ -108,19 +106,23 @@ export const Result: React.FC<ResultProps> = ({ stats, onRestart }) => {
 			)}
 
 			<div className="flex justify-center space-x-4">
-				<button
+				<Button
 					type="button"
 					onClick={onRestart}
-					className="rounded-lg bg-blue-600 px-8 py-3 font-semibold text-white transition-colors hover:bg-blue-700"
+					className="cursor-pointer rounded-lg px-8 py-3 font-semibold"
 				>
-					もう一度プレイ
-				</button>
-				<button
+					<RotateCw /> もう一度プレイ
+				</Button>
+				<Button
+					variant="outline"
+					asChild
 					type="button"
-					className="rounded-lg bg-gray-600 px-8 py-3 font-semibold text-white transition-colors hover:bg-gray-700"
+					className="cursor-pointer rounded-lg px-8 py-3 font-semibold"
 				>
-					<Link href="/">ホームに戻る</Link>
-				</button>
+					<Link href="/">
+						<Home /> ホームに戻る
+					</Link>
+				</Button>
 			</div>
 		</div>
 	);

@@ -12,6 +12,8 @@ export const SettingsInputSchema = UserInsertSchema.pick({
 const UserSelectSchema = createSelectSchema(user);
 export const SettingsOutputSchema = UserSelectSchema.pick({
 	prompt: true,
+}).extend({
+	prompt: z.string().max(15, { message: "最大15文字でお願いします。" }),
 });
 
 export const TweetSchema = UserSelectSchema.pick({

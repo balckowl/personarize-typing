@@ -2,8 +2,7 @@
 
 import { TypingGame } from "@/components/game/TypingGame";
 import { useTypingGame } from "@/hooks/useTypingGame";
-import type { ResponseTweetsSchemaType, TweetSchemaType } from "@/server/schemas/user.schema";
-import { useEffect } from "react";
+import type { ResponseTweetsSchemaType } from "@/server/schemas/user.schema";
 import { Result } from "./Result";
 
 type Props = {
@@ -34,7 +33,7 @@ export default function GameUIWrapper({
 	} = useTypingGame(sentences);
 
 	return (
-		<div className="flex min-h-screen items-center justify-center ">
+		<div className="flex h-screen items-center justify-center ">
 			<div className="container mx-auto">
 				<div className="mx-auto max-w-4xl">
 					{gameState.isGameFinished ? (
