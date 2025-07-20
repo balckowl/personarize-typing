@@ -32,18 +32,18 @@ export const auth = betterAuth({
 		},
 	},
 	socialProviders: {
-		twitter: {
-			clientId: env.TWITTER_CLIENT_ID,
-			clientSecret: env.TWITTER_CLIENT_SECRET,
-			mapProfileToUser: (profile) => {
-				// 'profile' オブジェクトの具体的な構造はTwitter (X) のAPIドキュメントで確認してください。
-				// ここでは、仮にTwitter (X) のプロフィールから 'name' や 'screen_name' を取得する例です。
-				const data = profile.data;
-				return {
-					username: data.username,
-					twitterId: data.id,
-				};
-			},
+		github: {
+			clientId: env.GITHUB_CLIENT_ID,
+			clientSecret: env.GITHUB_CLIENT_SECRET,
+			// mapProfileToUser: (profile) => {
+			// 	// 'profile' オブジェクトの具体的な構造はTwitter (X) のAPIドキュメントで確認してください。
+			// 	// ここでは、仮にTwitter (X) のプロフィールから 'name' や 'screen_name' を取得する例です。
+			// 	const data = profile.data;
+			// 	return {
+			// 		username: data.username,
+			// 		twitterId: data.id,
+			// 	};
+			// },
 		},
 	},
 	databaseHooks: {

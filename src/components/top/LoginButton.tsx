@@ -1,6 +1,6 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
-import { Loader2, Twitter } from "lucide-react";
+import { Github, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
 
@@ -11,7 +11,7 @@ export default function LoginButton() {
 		setIsLoading(true);
 		try {
 			await authClient.signIn.social({
-				provider: "twitter",
+				provider: "github",
 			});
 		} finally {
 			setIsLoading(false);
@@ -25,7 +25,7 @@ export default function LoginButton() {
 			onClick={handleSignIn}
 			disabled={isLoading}
 		>
-			{isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Twitter className="h-5 w-5" />}
+			{isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Github className="h-5 w-5" />}
 			で始める
 		</Button>
 	);

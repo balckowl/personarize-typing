@@ -11,6 +11,8 @@ export const env = createEnv({
 		TWITTER_BEARER_TOKEN_2: z.string(),
 		TWITTER_BEARER_TOKEN_3: z.string(),
 		TWITTER_BEARER_TOKEN_4: z.string(),
+		GITHUB_CLIENT_ID: z.string(),
+		GITHUB_CLIENT_SECRET: z.string(),
 	},
 	client: {
 		NEXT_PUBLIC_APP_URL: z.string().url(),
@@ -25,5 +27,7 @@ export const env = createEnv({
 		TWITTER_BEARER_TOKEN_2: process.env.TWITTER_BEARER_TOKEN_2,
 		TWITTER_BEARER_TOKEN_3: process.env.TWITTER_BEARER_TOKEN_3,
 		TWITTER_BEARER_TOKEN_4: process.env.TWITTER_BEARER_TOKEN_4,
+		GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
+		GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
 	},
 });
