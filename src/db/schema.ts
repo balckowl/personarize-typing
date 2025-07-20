@@ -17,8 +17,8 @@ export const user = pgTable("user", {
 		.notNull(),
 	tweets: jsonb("tweets").$type<{ id: string; text: string }[]>().notNull().default(tweets),
 	prompt: text("prompt").notNull().default(""),
-	twitterId: text("twitter_id").notNull().unique().default("1111111"),
-	username: text("twitter_username").notNull().unique().default("dummy_user"),
+	twitterId: text("twitter_id").notNull().default("1111111"),
+	username: text("twitter_username").notNull().default("dummy_user"),
 });
 
 export const session = pgTable("session", {
